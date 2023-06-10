@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -66,4 +67,10 @@ dependencies {
 
     // Lottie Animation
     implementation "com.airbnb.android:lottie:3.4.0"
+
+    // Room components( Verify that you have applied the kotlin-kapt plugin in your project-level build.gradle file )
+    implementation "androidx.room:room-runtime:2.5.1"
+    annotationProcessor "androidx.room:room-compiler:2.5.1"
+    kapt "androidx.room:room-compiler:2.5.1"
+    implementation "androidx.room:room-ktx:2.5.1"
 }
