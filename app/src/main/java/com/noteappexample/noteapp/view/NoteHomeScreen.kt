@@ -63,6 +63,8 @@ class NoteHomeScreen : Fragment() {
 
         // Observe the user data and update the UI
         viewModel.notes.observe(viewLifecycleOwner) { notes ->
+
+            Log.d("NoteHomeScreenViewModel", notes[0].title)
             // Update the UI with the notes data
             // For example, update a RecyclerView adapter with the note list.
         }
@@ -86,7 +88,7 @@ class NoteHomeScreen : Fragment() {
 
             async {
                 delay(4000)
-                noteDao.deleteNote(
+                viewModel.deleteNote(
                     Note(
                         id = 1, "Titlee1", "Content", "Data", "LastModifiet", isPrivate = false, "",
                     )

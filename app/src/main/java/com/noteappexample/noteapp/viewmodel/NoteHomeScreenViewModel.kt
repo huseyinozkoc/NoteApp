@@ -1,5 +1,6 @@
 package com.noteappexample.noteapp.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,7 @@ class NoteHomeScreenViewModel(private val noteRepository: NoteRepository) : View
     val notes: LiveData<List<Note>> get() = _notes
 
     init {
+        Log.d("NoteHomeScreenViewModel", "NoteHomeScreenViewModel initialized." )
         viewModelScope.launch {
             getNotes()
         }
@@ -25,15 +27,16 @@ class NoteHomeScreenViewModel(private val noteRepository: NoteRepository) : View
          }
     }
 
-    fun insertUser(note: Note) {
+    fun insertNote(note: Note) {
         viewModelScope.launch {
             noteRepository.insertNote(note)
         }
     }
 
-    fun deleteUser(note: Note) {
+    fun deleteNote(note: Note) {
         viewModelScope.launch {
             noteRepository.deleteNote(note)
+
         }
     }
 
