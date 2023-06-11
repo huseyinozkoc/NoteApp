@@ -24,10 +24,7 @@ import com.noteappexample.noteapp.view.adapters.NoteAdapter
 import com.noteappexample.noteapp.viewmodel.NoteDetailScreenViewModel
 import com.noteappexample.noteapp.viewmodel.NoteHomeScreenViewModel
 import com.noteappexample.noteapp.viewmodel.ViewModelFactory
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlin.random.Random
 
 class NoteHomeScreen : Fragment() {
@@ -86,13 +83,7 @@ class NoteHomeScreen : Fragment() {
 
         }
 
-
-
-
-
-       lifecycleScope.async {
-
-
+           // For Swipe Operations
            val swipeToDeleteCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
                override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
                    return false
@@ -110,15 +101,37 @@ class NoteHomeScreen : Fragment() {
                }
            }
 
+          // Attract Swipe Object to RecyclerView
            val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
            itemTouchHelper.attachToRecyclerView(binding.recyclerViewHomePage)
-       }
+
 
 
 
         binding.floatingButton.setOnClickListener {
             navController.navigate(R.id.action_noteHomeScreen_to_addNoteScreen)
         }
+
+
+        binding.floatingButton2.setOnClickListener {
+
+            lifecycleScope.async(Dispatchers.IO) {
+                viewModel.insertNote(
+                    Note(
+                        id = 0,
+                        title = "Hüsen",
+                        "",
+                        "",
+                        "",
+                        false,
+                        ""
+                    )
+                )
+            }
+        }
+
+
+
 
 
 

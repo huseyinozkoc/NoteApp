@@ -1,5 +1,6 @@
 package com.noteappexample.noteapp.view.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,9 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.noteappexample.noteapp.R
 import com.noteappexample.noteapp.room.Note
+import kotlin.random.Random
 
 
-class NoteAdapter(private val notes: MutableList<Note>) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(private val notes: MutableList<Note>) :
+    RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
 
     fun getDataList(): MutableList<Note> {
@@ -28,12 +31,18 @@ class NoteAdapter(private val notes: MutableList<Note>) : RecyclerView.Adapter<N
         val note = notes[position]
         holder.bind(note)
 
+        /*
         // Change background color for each item based on position
         if (position % 2 == 0) {
             holder.itemView.setBackgroundResource(R.color.purple_200)
         } else {
             holder.itemView.setBackgroundResource(R.color.white)
         }
+
+         */
+        val randomColor = getRandomColor()
+        holder.itemView.setBackgroundColor(randomColor)
+
     }
 
     // This method returns the total number of items in the RecyclerView
@@ -50,4 +59,14 @@ class NoteAdapter(private val notes: MutableList<Note>) : RecyclerView.Adapter<N
             textViewNote.text = note.title
         }
     }
+
+
+    private fun getRandomColor(): Int {
+        val random = Random.Default
+        val r = random.nextInt(256)
+        val g = random.nextInt(256)
+        val b = random.nextInt(256)
+        return Color.rgb(r, g, b)
+    }
+
 }
