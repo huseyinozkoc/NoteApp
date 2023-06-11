@@ -1,11 +1,16 @@
 package com.noteappexample.noteapp.view
 
-import androidx.lifecycle.ViewModelProvider
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -17,6 +22,7 @@ import com.noteappexample.noteapp.room.NoteDao
 import com.noteappexample.noteapp.viewmodel.AddNoteScreenViewModel
 import kotlinx.coroutines.async
 import java.util.*
+
 
 class AddNoteScreen : Fragment() {
 
@@ -74,7 +80,7 @@ class AddNoteScreen : Fragment() {
                         "",
                         binding.switchMaterial.isChecked,
                         binding.password.editText?.text.toString(),
-                        imageUrl = ""
+                        imageUrl = binding.imageAddScreenUrl.editText?.text.toString().trim()
                     )
                 )
 
@@ -84,8 +90,34 @@ class AddNoteScreen : Fragment() {
 
         }
 
+        binding.clickableImageUrl.setOnClickListener {
+            val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val text = binding.clickableImageUrl.text.toString()
+
+            val clipData = ClipData.newPlainText("text", text)
+            clipboardManager.setPrimaryClip(clipData)
+
+            // Optional: Show a Toast message to indicate successful copy
+            Toast.makeText(context, "Text copied", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.clickableImageUrl2.setOnClickListener {
+            val clipboardManager = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val text = binding.clickableImageUrl2.text.toString()
+
+            val clipData = ClipData.newPlainText("text", text)
+            clipboardManager.setPrimaryClip(clipData)
+
+            // Optional: Show a Toast message to indicate successful copy
+            Toast.makeText(context, "Text copied", Toast.LENGTH_SHORT).show()
+        }
+
+
         return binding.root
     }
+
+
+
 
 
 }

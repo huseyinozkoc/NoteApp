@@ -117,5 +117,61 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/image_add_screen_url"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:hint="Image Url"
+        android:visibility="visible"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:cornerRadius="16dp"
+        app:endIconMode="clear_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/clickable_image_url"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:textSize="9sp"
+        android:layout_marginBottom="24dp"
+        android:text="https://pbs.twimg.com/profile_images/1618857734320914432/3Er70_jb_400x400.jpg"
+        app:layout_constraintBottom_toTopOf="@+id/image_add_screen_url"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/clickable_image_url2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="https://gray-wmctv-prod.cdn.arcpublishing.com/resizer/s87ma8JBHcZV73N4XABrBIRSRi8=/1200x675/smart/filters:quality(85)/cloudfront-us-east-1.images.arcpublishing.com/gray/SJKDEA5SPNCUXPYWNKO52EAWDY.png"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toTopOf="@+id/clickable_image_url"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </TextView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

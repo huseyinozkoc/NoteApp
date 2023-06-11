@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.noteappexample.noteapp.R
 import com.noteappexample.noteapp.room.Note
 import java.util.*
@@ -63,14 +64,26 @@ class NoteAdapter(private val notes: MutableList<Note>, var mContext: Context) :
 
 
         val imageUrlView= holder.itemView.findViewById<ImageView>(R.id.imageUrl)
+         if(note.imageUrl.isNotEmpty()) {
+             Glide.with(mContext)
+                 .load(note.imageUrl) // image url
+                 .placeholder(R.drawable.ic_baseline_note_add_24) // any placeholder to load at start
+                 .error(R.drawable.ic_baseline_add_24)  // any image in case of error
+                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                 .override(200, 200) // resizing
+                 .centerCrop()
+                 .into(imageUrlView);  // imageview object
+         } else {
+             Glide.with(mContext)
+                 .load("https://www.zbrushcentral.com/uploads/default/original/4X/2/d/b/2db1a3bdf28145cbbce60d7b58cf3d442215890a.jpeg") // image url
+                 .placeholder(R.drawable.ic_baseline_note_add_24) // any placeholder to load at start
+                 .error(R.drawable.ic_baseline_add_24)  // any image in case of error
+                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                 .override(200, 200) // resizing
+                 .centerCrop()
+                 .into(imageUrlView);  // imageview object
+         }
 
-        Glide.with(mContext)
-            .load("https://www.zbrushcentral.com/uploads/default/original/4X/2/d/b/2db1a3bdf28145cbbce60d7b58cf3d442215890a.jpeg") // image url
-            .placeholder(R.drawable.ic_baseline_note_add_24) // any placeholder to load at start
-            .error(R.drawable.ic_baseline_add_24)  // any image in case of error
-            .override(200, 200) // resizing
-            .centerCrop()
-            .into(imageUrlView);  // imageview object
 
         if (note.isPrivate) {
             val privateImage= holder.itemView.findViewById<ImageView>(R.id.privateImage)
