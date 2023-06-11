@@ -49,6 +49,19 @@ class AddNoteScreen : Fragment() {
         // Initialize NavController
         navController = findNavController()
 
+        binding.switchMaterial.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                // Switch is checked (true)
+                // Perform actions when the switch is turned ON
+                binding.password.visibility = View.VISIBLE
+            } else {
+                // Switch is unchecked (false)
+                // Perform actions when the switch is turned OFF
+                binding.password.visibility = View.GONE
+            }
+        }
+
+
         binding.submitButton.setOnClickListener {
 
             lifecycleScope.async {
@@ -60,7 +73,7 @@ class AddNoteScreen : Fragment() {
                         Calendar.getInstance().time.toString(),
                         "",
                         binding.switchMaterial.isChecked,
-                        "",
+                        binding.password.editText?.text.toString(),
                         imageUrl = ""
                     )
                 )
