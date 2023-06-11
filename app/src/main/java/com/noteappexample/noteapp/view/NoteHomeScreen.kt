@@ -25,6 +25,7 @@ import com.noteappexample.noteapp.viewmodel.NoteDetailScreenViewModel
 import com.noteappexample.noteapp.viewmodel.NoteHomeScreenViewModel
 import com.noteappexample.noteapp.viewmodel.ViewModelFactory
 import kotlinx.coroutines.*
+import java.util.*
 import kotlin.random.Random
 
 class NoteHomeScreen : Fragment() {
@@ -76,7 +77,7 @@ class NoteHomeScreen : Fragment() {
             binding.recyclerViewHomePage.layoutManager = layoutManager
 
             // Create an instance of the adapter
-            noteAdapter = NoteAdapter(notes.toMutableList())
+            noteAdapter = NoteAdapter(notes.toMutableList(),requireContext())
             // Set the adapter to the RecyclerView
             binding.recyclerViewHomePage.adapter = noteAdapter
 
@@ -120,8 +121,8 @@ class NoteHomeScreen : Fragment() {
                     Note(
                         id = 0,
                         title = "Hüsen",
-                        "",
-                        "",
+                        "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
+                         Calendar.getInstance().time.toString(),
                         "",
                         false,
                         ""

@@ -1,17 +1,22 @@
 package com.noteappexample.noteapp.view.adapters
 
+import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.noteappexample.noteapp.R
 import com.noteappexample.noteapp.room.Note
+import java.util.*
 import kotlin.random.Random
 
 
-class NoteAdapter(private val notes: MutableList<Note>) :
+class NoteAdapter(private val notes: MutableList<Note>, var mContext: Context) :
     RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
 
@@ -42,6 +47,29 @@ class NoteAdapter(private val notes: MutableList<Note>) :
          */
         val randomColor = getRandomColor()
         holder.itemView.setBackgroundColor(randomColor)
+
+        holder.itemView.findViewById<TextView>(R.id.content).setOnClickListener {
+            Toast.makeText(mContext, "Content'e tıklandı", Toast.LENGTH_SHORT).show()
+        }
+        val title= holder.itemView.findViewById<TextView>(R.id.title)
+        title.text = note.title
+
+        val content= holder.itemView.findViewById<TextView>(R.id.content)
+        content.text = note.content
+
+        val creationDate= holder.itemView.findViewById<TextView>(R.id.creationDate)
+        creationDate.text = note.creationDate
+
+
+        val imageUrlView= holder.itemView.findViewById<ImageView>(R.id.imageUrl)
+
+        Glide.with(mContext)
+            .load("https://www.zbrushcentral.com/uploads/default/original/4X/2/d/b/2db1a3bdf28145cbbce60d7b58cf3d442215890a.jpeg") // image url
+            .placeholder(R.drawable.ic_baseline_note_add_24) // any placeholder to load at start
+            .error(R.drawable.ic_baseline_add_24)  // any image in case of error
+            .override(200, 200) // resizing
+            .centerCrop()
+            .into(imageUrlView);  // imageview object
 
     }
 
