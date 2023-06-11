@@ -56,11 +56,12 @@ class AddNoteScreen : Fragment() {
                     Note(
                         id = 0,
                         title = binding.outlinedTextField.editText?.text.toString(),
-                        "",
+                        binding.content.editText?.text.toString(),
                         Calendar.getInstance().time.toString(),
                         "",
-                        false,
-                        ""
+                        binding.switchMaterial.isChecked,
+                        "",
+                        imageUrl = ""
                     )
                 )
 
