@@ -10,6 +10,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.noteappexample.noteapp.R
 import com.noteappexample.noteapp.databinding.FragmentNoteDetailScreenBinding
 import com.noteappexample.noteapp.databinding.FragmentNoteHomeScreenBinding
@@ -17,9 +20,11 @@ import com.noteappexample.noteapp.repository.NoteRepository
 import com.noteappexample.noteapp.room.AppDatabase
 import com.noteappexample.noteapp.room.Note
 import com.noteappexample.noteapp.room.NoteDao
+import com.noteappexample.noteapp.view.adapters.NoteAdapter
 import com.noteappexample.noteapp.viewmodel.NoteDetailScreenViewModel
 import com.noteappexample.noteapp.viewmodel.NoteHomeScreenViewModel
 import com.noteappexample.noteapp.viewmodel.ViewModelFactory
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -36,6 +41,8 @@ class NoteHomeScreen : Fragment() {
     private lateinit var navController: NavController
 
     private lateinit var noteDao: NoteDao
+
+    private lateinit var noteAdapter: NoteAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,38 +71,51 @@ class NoteHomeScreen : Fragment() {
         // Observe the user data and update the UI
         viewModel.notes.observe(viewLifecycleOwner) { notes ->
 
-            Log.d("NoteHomeScreenViewModel", notes[0].title)
+            //Log.d("NoteHomeScreenViewModel", notes[0].title)
             // Update the UI with the notes data
             // For example, update a RecyclerView adapter with the note list.
         }
 
 
+        // Create a LinearLayoutManager to be used by the RecyclerView
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewHomePage.layoutManager = layoutManager
 
 
-        lifecycleScope.launch {
-            async {
-                noteDao.insertNote(
-                    Note(
-                        id = 0, "Titlee1", "Content", "Data", "LastModifiet", isPrivate = false, "",
-                    )
-                )
-            }.await()
 
-            var a = emptyList<Note>()
-            async { a = noteDao.getNotes() }.await()
+       lifecycleScope.async {
 
-            Log.d("NoteHomeScreen", a[0].title)
+           var notes = appDatabase.noteDao().getNotes()
+           // Create an instance of the adapter
+           noteAdapter = NoteAdapter(notes.toMutableList())
+           // Set the adapter to the RecyclerView
+           binding.recyclerViewHomePage.adapter = noteAdapter
 
-            async {
-                delay(4000)
-                viewModel.deleteNote(
-                    Note(
-                        id = 1, "Titlee1", "Content", "Data", "LastModifiet", isPrivate = false, "",
-                    )
-                )
+           val swipeToDeleteCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+               override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                   return false
+               }
 
-            }.await()
+               override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                   val position = viewHolder.adapterPosition
+                   val swipedItem = noteAdapter.getDataList()[position]
 
+                   // Delete item from Room database using DAO
+                   lifecycleScope.launch {
+                       noteDao.deleteNote(swipedItem)
+                   }
+                   noteAdapter.deleteItem(position)
+               }
+           }
+
+           val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+           itemTouchHelper.attachToRecyclerView(binding.recyclerViewHomePage)
+       }
+
+
+
+        binding.floatingButton.setOnClickListener {
+            navController.navigate(R.id.action_noteHomeScreen_to_addNoteScreen)
         }
 
 

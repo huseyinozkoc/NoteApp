@@ -14,13 +14,14 @@ data class Note(
 
     val creationDate: String,
 
-    val lastModifiedDate : String,
+    val lastModifiedDate: String,
 
-    val isPrivate:Boolean = false,
+    val isPrivate: Boolean = false,
 
     // For private notes
-    val password:String = "",
+    val password: String = "",
 
+    val imageUrl: String = ""
 
 
 )
