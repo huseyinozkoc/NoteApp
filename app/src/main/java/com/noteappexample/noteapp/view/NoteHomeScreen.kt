@@ -71,25 +71,27 @@ class NoteHomeScreen : Fragment() {
         // Observe the user data and update the UI
         viewModel.notes.observe(viewLifecycleOwner) { notes ->
 
-            //Log.d("NoteHomeScreenViewModel", notes[0].title)
             // Update the UI with the notes data
             // For example, update a RecyclerView adapter with the note list.
+
+            // Create a LinearLayoutManager to be used by the RecyclerView
+            val layoutManager = LinearLayoutManager(requireContext())
+            binding.recyclerViewHomePage.layoutManager = layoutManager
+
+            // Create an instance of the adapter
+            noteAdapter = NoteAdapter(notes.toMutableList())
+            // Set the adapter to the RecyclerView
+            binding.recyclerViewHomePage.adapter = noteAdapter
+
+
         }
 
 
-        // Create a LinearLayoutManager to be used by the RecyclerView
-        val layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerViewHomePage.layoutManager = layoutManager
 
 
 
        lifecycleScope.async {
 
-           var notes = appDatabase.noteDao().getNotes()
-           // Create an instance of the adapter
-           noteAdapter = NoteAdapter(notes.toMutableList())
-           // Set the adapter to the RecyclerView
-           binding.recyclerViewHomePage.adapter = noteAdapter
 
            val swipeToDeleteCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
                override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
@@ -102,9 +104,9 @@ class NoteHomeScreen : Fragment() {
 
                    // Delete item from Room database using DAO
                    lifecycleScope.launch {
-                       noteDao.deleteNote(swipedItem)
+                       viewModel.deleteNote(swipedItem)
                    }
-                   noteAdapter.deleteItem(position)
+
                }
            }
 

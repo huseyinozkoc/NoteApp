@@ -16,10 +16,6 @@ class NoteAdapter(private val notes: MutableList<Note>) : RecyclerView.Adapter<N
         return notes
     }
 
-    fun deleteItem(position: Int) {
-        notes.removeAt(position)
-        notifyItemRemoved(position)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         // Inflate the layout for each item in the RecyclerView
