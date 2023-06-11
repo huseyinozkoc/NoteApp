@@ -16,6 +16,7 @@ import com.noteappexample.noteapp.room.Note
 import com.noteappexample.noteapp.room.NoteDao
 import com.noteappexample.noteapp.viewmodel.AddNoteScreenViewModel
 import kotlinx.coroutines.async
+import java.util.*
 
 class AddNoteScreen : Fragment() {
 
@@ -56,7 +57,7 @@ class AddNoteScreen : Fragment() {
                         id = 0,
                         title = binding.outlinedTextField.editText?.text.toString(),
                         "",
-                        "",
+                        Calendar.getInstance().time.toString(),
                         "",
                         false,
                         ""
