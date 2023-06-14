@@ -73,4 +73,15 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:2.5.1"
     kapt "androidx.room:room-compiler:2.5.1"
     implementation "androidx.room:room-ktx:2.5.1"
+
+
+    // GMS
+    implementation 'com.google.android.gms:play-services-base:18.2.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    // HMS ( https://developer.huawei.com/consumer/en/doc/development/hmscore-common-Guides/integrate-sdk-0000001167185652 )
+    implementation 'com.huawei.hms:hmscoreinstaller:6.6.0.300'
+    implementation 'com.huawei.hms:hwid:5.0.1.301'
+
+
 }
